@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hotel/features/authentication/widgets/show_button.dart';
 import 'package:hotel/home_page.dart';
-import 'package:dio/dio.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -82,50 +82,10 @@ class _RegisterState extends State<Register> {
                 valueListenable: phoneNumber,
                 builder: (context, value, child) {
                   if (value.text.length >= 10) {
-                    return ElevatedButton(
-                      style: const ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(Colors.blue),
-                        padding: MaterialStatePropertyAll(EdgeInsets.symmetric(
-                            horizontal: 100, vertical: 10)),
-                        shape: MaterialStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        ));
-                      },
-                      child: const Text(
-                        'Submit',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white),
-                      ),
-                    );
+                    return const CustomButton();
                   } else {
-                    return const ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(Colors.grey),
-                        padding: MaterialStatePropertyAll(EdgeInsets.symmetric(
-                            horizontal: 100, vertical: 10)),
-                        shape: MaterialStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                        ),
-                      ),
-                      onPressed: null,
-                      child: Text(
-                        'Submit',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white54),
-                      ),
+                    return const SizedBox(
+                      height: 10,
                     );
                   }
                 },
