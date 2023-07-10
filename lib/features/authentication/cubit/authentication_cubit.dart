@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hotel/features/authentication/cubit/authentication_state.dart';
+
 import '../repository/authentication_repository.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
@@ -16,5 +17,19 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     } else {
       emit(AuthenticationRegisterError('Something went wrong.'));
     }
+  }
+
+  bool showButton(int length) {
+    if (length == 10) {
+      emit(AuthenticationShowButton(true));
+      return true;
+    } else {
+      emit(AuthenticationShowButton(false));
+      return false;
+    }
+  }
+
+  void setState(AuthenticationState state) {
+    emit(state);
   }
 }

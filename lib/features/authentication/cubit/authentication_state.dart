@@ -1,5 +1,3 @@
-
-
 abstract class AuthenticationState {}
 
 class AuthenticationInitial extends AuthenticationState {}
@@ -14,4 +12,9 @@ class AuthenticationRegisterLoading extends AuthenticationState {}
 class AuthenticationRegisterError extends AuthenticationState {
   AuthenticationRegisterError(this.msg);
   String msg;
+}
+
+class AuthenticationShowButton extends AuthenticationState {
+  AuthenticationShowButton(this.isActive);
+  bool isActive = false;
 }
