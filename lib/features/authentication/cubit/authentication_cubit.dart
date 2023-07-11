@@ -12,15 +12,15 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       AuthenticationRepository();
 
   Future<void> registerUser({required String number, Widget? widget}) async {
-    emit(AuthenticationRegisterLoading(
-        widget ?? const CircularProgressIndicator()));
+    //emit(AuthenticationRegisterLoading(const Text('Please Wait')));
+
     var verifyUser = await _authenticationRepository.sendOtp(number);
-    if (verifyUser != null) {
+    if (verifyUser.statusCode == 200) {
       emit(AuthenticationRegisterSuccess('Success.'));
     } else {
-      print("Response :"+verifyUser);
       emit(AuthenticationRegisterError('Something went wrong.'));
     }
+    print("Response :" + verifyUser.statusCode);
   }
 
   Future<Response> verifyUser({required String otp, Widget? widget}) async {

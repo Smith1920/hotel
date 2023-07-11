@@ -3,6 +3,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hotel/env.dart';
 import 'package:hotel/features/authentication/screens/otp_verification_screen.dart';
 
 import '../cubit/authentication_cubit.dart';
@@ -31,11 +32,11 @@ class _CustomButtonState extends State<CustomButton> {
         return Visibility(
           visible: state.isActive,
           child: ElevatedButton(
-            style: const ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll(Colors.blue),
-              padding: MaterialStatePropertyAll(
+            style: ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll(AppEnvironment.color),
+              padding: const MaterialStatePropertyAll(
                   EdgeInsets.symmetric(horizontal: 100, vertical: 10)),
-              shape: MaterialStatePropertyAll(
+              shape: const MaterialStatePropertyAll(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
@@ -56,8 +57,8 @@ class _CustomButtonState extends State<CustomButton> {
               // ));
 
               authenticationCubit?.registerUser(
-                  number: widget.phoneNumber,
-                  widget: const Center(child: CircularProgressIndicator()));
+                number: widget.phoneNumber,
+              );
             },
             child: const Text(
               'Submit',

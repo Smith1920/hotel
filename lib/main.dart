@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hotel/env.dart';
 import 'package:hotel/features/authentication/cubit/authentication_cubit.dart';
 import 'package:hotel/features/authentication/cubit/authentication_state.dart';
 import 'package:hotel/features/authentication/screens/register.dart';
 
-void main() {
-  runApp(MultiBlocProvider(providers: [
-    BlocProvider(
-      create: (context) => AuthenticationCubit(
-        AuthenticationInitial(),
-      ),
-    ),
-  ], child: const MyApp()));
-}
+// void main() {
+//   runApp(MultiBlocProvider(providers: [
+//     BlocProvider(
+//       create: (context) => AuthenticationCubit(
+//         AuthenticationInitial(),
+//       ),
+//     ),
+//   ], child: const MyApp()));
+// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -22,11 +23,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       darkTheme: ThemeData.dark(),
-      title: 'Flutter Demo',
+      title: AppEnvironment.title,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: AppEnvironment.color,
       ),
-      home: Register(),
+      home: const Register(),
     );
   }
 }
