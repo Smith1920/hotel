@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hotel/features/authentication/cubit/authentication_state.dart';
 
@@ -9,23 +11,34 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   final AuthenticationRepository _authenticationRepository =
       AuthenticationRepository();
 
-  Future<void> registerUser(String number) async {
-    AuthenticationRegisterLoading();
+  Future<void> registerUser({required String number, Widget? widget}) async {
+    emit(AuthenticationRegisterLoading(
+        widget ?? const CircularProgressIndicator()));
     var verifyUser = await _authenticationRepository.sendOtp(number);
+    if (verifyUser != null) {
+      emit(AuthenticationRegisterSuccess('Success.'));
+    } else {
+      print("Response :"+verifyUser);
+      emit(AuthenticationRegisterError('Something went wrong.'));
+    }
+  }
+
+  Future<Response> verifyUser({required String otp, Widget? widget}) async {
+    AuthenticationRegisterLoading(widget ?? const CircularProgressIndicator());
+    var verifyUser = await _authenticationRepository.verifyOtp(otp);
     if (verifyUser != null) {
       emit(AuthenticationRegisterSuccess('Success.'));
     } else {
       emit(AuthenticationRegisterError('Something went wrong.'));
     }
+    return verifyUser;
   }
 
-  bool showButton(int length) {
+  void showButton(int length) {
     if (length == 10) {
       emit(AuthenticationShowButton(true));
-      return true;
     } else {
       emit(AuthenticationShowButton(false));
-      return false;
     }
   }
 

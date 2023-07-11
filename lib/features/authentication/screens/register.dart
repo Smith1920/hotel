@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hotel/features/authentication/cubit/authentication_cubit.dart';
+import 'package:hotel/features/authentication/widgets/form_widget.dart';
 
 import 'package:hotel/features/authentication/widgets/show_button.dart';
 
@@ -77,53 +78,17 @@ class _RegisterState extends State<Register> {
                   flex: 4,
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Form(
-                      key: _key,
-                      child: TextFormField(
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(11),
-                        ],
-                        validator: (value) {
-                          if (value?.length != 10) {
-                            return 'Number must be 10-Digits';
-                          }
-                          return null;
-                        },
-                        onChanged: (value) {
-                          if (value.length == 10) {
-                            isChange = true;
-
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            _phoneNumber.text = value;
-                          } else {
-                            isChange = false;
-                            authenticationCubit?.showButton(value.length);
-                          }
-                        },
-                        keyboardType: TextInputType.number,
-                        controller: _phoneNumber,
-                        textAlign: TextAlign.start,
-                        style: const TextStyle(fontSize: 20),
-                        decoration: const InputDecoration(
-                          prefix: Text('+91 '),
-                          label: Text('Phone-Number'),
-                          hintText: '00000 00000',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    child: const FormWidget(),
                   ),
                 ),
-                authenticationCubit?.showButton(_phoneNumber.text.length) ??
-                        false
-                    ? const CustomButton()
-                    : const SizedBox(
-                        height: 10,
-                      ),
+                if (state is AuthenticationShowButton)
+                  state.isActive
+                      ? CustomButton(
+                          phoneNumber: _phoneNumber.text,
+                        )
+                      : const SizedBox(
+                          height: 10,
+                        ),
                 const Spacer(
                   flex: 1,
                 ),

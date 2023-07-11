@@ -1,14 +1,16 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, prefer_const_constructors_in_immutables, prefer_typing_uninitialized_variables, use_build_context_synchronously
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../home_page.dart';
+import 'package:hotel/features/authentication/screens/otp_verification_screen.dart';
+
 import '../cubit/authentication_cubit.dart';
 import '../cubit/authentication_state.dart';
 
 class CustomButton extends StatefulWidget {
-  const CustomButton({super.key});
-
+  CustomButton({super.key, required this.phoneNumber});
+  final phoneNumber;
   @override
   State<CustomButton> createState() => _CustomButtonState();
 }
@@ -25,29 +27,50 @@ class _CustomButtonState extends State<CustomButton> {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationCubit, AuthenticationState>(
         builder: (context, state) {
-      return ElevatedButton(
-        style: const ButtonStyle(
-          backgroundColor: MaterialStatePropertyAll(Colors.blue),
-          padding: MaterialStatePropertyAll(
-              EdgeInsets.symmetric(horizontal: 100, vertical: 10)),
-          shape: MaterialStatePropertyAll(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
+      if (state is AuthenticationShowButton) {
+        return Visibility(
+          visible: state.isActive,
+          child: ElevatedButton(
+            style: const ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll(Colors.blue),
+              padding: MaterialStatePropertyAll(
+                  EdgeInsets.symmetric(horizontal: 100, vertical: 10)),
+              shape: MaterialStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                ),
               ),
             ),
+            onPressed: () async {
+              // authenticationCubit?.emit(AuthenticationRegisterLoading(
+              //     const CircularProgressIndicator()));
+              // Response? response = await authenticationCubit?.registerUser(
+              //     number: widget.phoneNumber);
+              // print(response?.statusCode);
+              // print(response?.data);
+              // Navigator.of(context).push(MaterialPageRoute(
+              //   builder: (context) =>
+              //       OtpVerificationScreenState(response: response),
+              // ));
+
+              authenticationCubit?.registerUser(
+                  number: widget.phoneNumber,
+                  widget: const Center(child: CircularProgressIndicator()));
+            },
+            child: const Text(
+              'Submit',
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            ),
           ),
-        ),
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const HomePage(),
-          ));
-        },
-        child: const Text(
-          'Submit',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-      );
+        );
+      } else {
+        return const SizedBox(
+          height: 10,
+        );
+      }
     });
   }
 }

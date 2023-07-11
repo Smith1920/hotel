@@ -10,7 +10,7 @@ void main() {
       create: (context) => AuthenticationCubit(
         AuthenticationInitial(),
       ),
-    )
+    ),
   ], child: const MyApp()));
 }
 
